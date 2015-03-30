@@ -1,15 +1,23 @@
 require "lib.stdheaders"
-mg.write("Content-Type: text/plain\r\n")
+mg.write("Content-Type: application/json\r\n")
 mg.write("\r\n")
 
 local json = require "json"
-local file = io.open("/tmp/test.log", "a")
 local postdata = require "lib.postdata"
 
-file:write(json.encode(postdata))
-file:write("\n")
-file:close()
+returndata = {}
+if postdata.action == 'config' then
+    -- Write the config files
+elseif postdata.action == 'start' then
+    -- Start the OpenVPN service if not
+elseif postdata.action == 'stop' then
+    -- Stop the OpenVPN service if running
+elseif postdata.action == 'status' then
+    -- Return the status of the openvpn service
+else
+    returndata = {error="Invalid Action"}
+end
 
-mg.write('Written!')
-
+mg.write(json.encode(returndata))
+mg.write("\r\n")
 
