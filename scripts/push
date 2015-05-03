@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Remove old code
+ssh root@192.168.1.1 -- rm -rf /www/*
+
+# Push out new code
+git archive HEAD | ssh root@192.168.1.1 -- tar xv -C /www
+
+# Reload webserver
+ssh root@192.168.1.1 -- /etc/init.d/uhttpd restart
+
