@@ -1,22 +1,29 @@
+-- Search in /www for out packages
+package.path = "/www/?.lua;" .. package.path
+
+json = require "lib.json"
+
+function debug_data(env)
+    return env
+end
+
 routes = {
-    {"^/v1/test", "Testing..."},
+    {path="^/v1/debug", handler=debug_data},
 }
 
 function handle_request(env)
-  uhttpd.send("Status: 200 OK\r\n")
-  uhttpd.send("Content-Type: text/plain\r\n\r\n")
-  uhttpd.send("Hello world.\n")
-  for k, v in pairs( env ) do
-    uhttpd.send(k)
-    uhttpd.send("=")
-    if type(v) == "string" then
-      uhttpd.send(v)
-      uhttpd.send("\n")
-    else
-      uhttpd.send("<object>\n")
+    -- Try to find a matching route
+    for i, r in ipairs(routes) do
+        if string.match(env.PATH_INFO, r.path) then
+            uhttpd.send("Status: 200 OK\r\n")
+            uhttpd.send("Content-Type: application/json\r\n\r\n")
+            uhttpd.send(json.encode(r.handler(env)))
+            return nil
+        end
     end
-  end
-  uhttpd.send("\n\n")
-  uhttpd.send(env.PATH_INFO)
-  uhttpd.send("\n\n")
+
+    -- Not found in routes table
+    uhttpd.send("Status: 404 Not Found\r\n")
+    uhttpd.send("Content-Type: application/json\r\n\r\n")
+    uhttpd.send('{ "error":"Not Found" }')
 end
