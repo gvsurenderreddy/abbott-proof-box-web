@@ -1,9 +1,10 @@
 -- Search in /www for out packages
-package.path = "/www/?.lua;" .. package.path
+package.path = uhttpd.docroot .. "/?.lua;" .. package.path
 
 json = require "lib.json"
 
 function debug_data(env)
+    env.datalen, env.data = uhttpd.recv(2048)
     return env
 end
 
