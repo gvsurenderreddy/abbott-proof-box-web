@@ -35,4 +35,5 @@ end
 
 -- Import various parts of the application
 require "app.debug"
+require "app.openvpn"
 
