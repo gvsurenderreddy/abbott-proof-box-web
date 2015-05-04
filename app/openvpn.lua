@@ -18,6 +18,7 @@ function openvpn.config(env, data)
 end
 
 register_path("^/v1/openvpn/?$", openvpn.status)
+register_path("^/v1/openvpn/status/?$", openvpn.status)
 register_path("^/v1/openvpn/config/?$", openvpn.config)
 
 return openvpn
