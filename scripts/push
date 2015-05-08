@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Setup the web browser to use our lua scripts
+ssh root@192.168.1.1 -- 'uci set uhttpd.main.lua_prefix=/api; \
+		                 uci set uhttpd.main.lua_handler=/www/entry.lua; \
+						 uci commit'
+
 # Remove old code
 ssh root@192.168.1.1 -- rm -rf /www/*
 

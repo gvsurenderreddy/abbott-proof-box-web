@@ -16,6 +16,11 @@ function handle_request(env)
     -- Read the data
     datalen, data = uhttpd.recv(2048)
 
+	-- Parse the incoming data
+	if env.CONTENT_TYPE == 'application/json' then
+		data = json.decode(data)
+    end
+
     -- Try to find a matching route
     for i, r in ipairs(routes) do
         if string.find(env.PATH_INFO, r.path) then
