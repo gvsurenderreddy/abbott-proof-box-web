@@ -1,7 +1,9 @@
 <html>
   <head>
     <title>Abbott Proof Box</title>
-	<script src="js/riot_compiler.min.js"></script>
+    <script src="js/riot_compiler.min.js"></script>
+    <script src="tags/openvpn-status.tag" type="riot/tag"></script>
+    <script>riot.mount('openvpn-status')</script>
   </head>
   <body>
     <h1>Abbott Proof Box</h1>
@@ -11,6 +13,7 @@
       and transparent VPN Device for use wherever you need privacy.
     </p>
     <h2>Status</h2>
+    <openvpn-status></openvpn-status>
     <h2>Configuration</h2>
   </body>
 </html>
