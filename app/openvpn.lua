@@ -58,6 +58,7 @@ function openvpn.set_config(data)
     end
 
     -- Set the config options we allow
+    u:delete("openvpn", openvpn.client_name)
     u:set("openvpn", openvpn.client_name, "openvpn")
     for i, c in ipairs(openvpn.config_options) do
         if data[c] then
