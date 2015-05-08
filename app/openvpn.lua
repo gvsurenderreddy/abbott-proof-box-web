@@ -70,10 +70,41 @@ function openvpn.set_config(data)
     -- Return the latest config
     return openvpn.get_config()
 end
+
 function openvpn.status(env, data)
+    if env.REQUEST_METHOD == 'GET' then
+        return openvpn.get_service_status()
+
+    elseif env.REQUEST_METHOD == 'POST'
+       and env.CONTENT_TYPE == 'application/json'
+       and data.status == 'start' then
+        openvpn.start_service()
+
+    elseif env.REQUEST_METHOD == 'POST'
+       and env.CONTENT_TYPE == 'application/json'
+       and data.status == 'stop' then
+        openvpn.stop_service()
+
+    else
+        return {error='Bad Request'}
+
+    end
+
+    return openvpn.get_service_status()
+end
+
+function openvpn.start_service()
+    local exit = os.execute('/etc/init.d/openvpn start')
+end
+
+function openvpn.stop_service()
+    local exit = os.execute('/etc/init.d/openvpn stop')
+end
+
+function openvpn.get_service_status()
     local result = {}
 
-    local exit = os.execute('killall -0 openvpn')
+    local exit = os.execute('killall -0 openvpn &>/dev/null')
     if exit == 0 then
         result.status = "running"
     else
