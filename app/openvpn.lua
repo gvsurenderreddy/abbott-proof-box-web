@@ -62,7 +62,7 @@ function openvpn.set_config(data)
     u:set("openvpn", openvpn.client_name, "openvpn")
 
     -- Setup management interface
-    u:set("openvpn", openvpn.client_name, 'status', '/tmp/openvpn-' .. openvpn.client_name .. '.txt')
+    u:set("openvpn", openvpn.client_name, 'status', '/tmp/openvpn-' .. openvpn.client_name .. '.txt 10')
     u:set("openvpn", openvpn.client_name, 'status-version', '3')
 
     -- Set the config options we allow

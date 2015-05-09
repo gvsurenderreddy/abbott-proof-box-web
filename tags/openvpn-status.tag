@@ -15,8 +15,13 @@
         if (this.status >= 200 && this.status < 400) {
           var rjson = JSON.parse(request.responseText)
           self.status = rjson.status.charAt(0).toUpperCase() + rjson.status.slice(1);
-          self.up = Math.round(rjson.stats['TCP/UDP write bytes'] / 1024 / 1024)
-          self.down = Math.round(rjson.stats['TCP/UDP read bytes'] / 1024 / 1024)
+          if ('stats' in rjson) {
+            self.up = Math.round(rjson.stats['TCP/UDP write bytes'] / 1024 / 1024)
+            self.down = Math.round(rjson.stats['TCP/UDP read bytes'] / 1024 / 1024)
+          } else {
+            self.up = 0
+            self.down = 0
+          }
           self.update()
         }
       }
