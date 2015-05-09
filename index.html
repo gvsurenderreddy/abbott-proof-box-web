@@ -3,7 +3,11 @@
     <title>Abbott Proof Box</title>
     <script src="js/riot_compiler.min.js"></script>
     <script src="tags/openvpn-status.tag" type="riot/tag"></script>
-    <script>riot.mount('openvpn-status')</script>
+    <script>
+      riot.mount('openvpn-status', {
+          interval: 5000
+      });
+    </script>
   </head>
   <body>
     <h1>Abbott Proof Box</h1>

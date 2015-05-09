@@ -57,9 +57,15 @@ function openvpn.set_config(data)
         data['ca'] = "/etc/openvpn/ca.crt"
     end
 
-    -- Set the config options we allow
+    -- Clear existing settings
     u:delete("openvpn", openvpn.client_name)
     u:set("openvpn", openvpn.client_name, "openvpn")
+
+    -- Setup management interface
+    u:set("openvpn", openvpn.client_name, 'status', '/tmp/openvpn-' .. openvpn.client_name .. '.txt')
+    u:set("openvpn", openvpn.client_name, 'status-version', '3')
+
+    -- Set the config options we allow
     for i, c in ipairs(openvpn.config_options) do
         if data[c] then
             u:set("openvpn", openvpn.client_name, c, data[c])
@@ -102,11 +108,23 @@ function openvpn.stop_service()
 end
 
 function openvpn.get_service_status()
+    local fn = '/tmp/openvpn-' .. openvpn.client_name .. '.txt'
     local result = {}
 
     local exit = os.execute('killall -0 openvpn &>/dev/null')
     if exit == 0 then
         result.status = "running"
+        local f = io.open(fn, 'r')
+
+        if f ~= nil then
+            result['stats'] = {}
+            for line in f:lines() do
+                if line ~= 'OpenVPN STATISTICS' and line ~= 'END' then
+                    key, val = line:match('([^,]*),(.*)')
+                    result['stats'][key] = val
+                end
+            end
+        end
     else
         result.status = "stopped"
     end
