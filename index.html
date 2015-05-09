@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Abbott Proof Box</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
     <script src="js/riot_compiler.min.js"></script>
     <script src="tags/openvpn-status.tag" type="riot/tag"></script>
     <script>
@@ -10,14 +11,25 @@
     </script>
   </head>
   <body>
-    <h1>Abbott Proof Box</h1>
+    <h1 class="hero">Abbott Proof Box</h1>
     <p>
       Welcome, and congratulations on your purchase of the
       <em>Abbott Proof Box</em>. We have worked tirelessly to produce a secure
-      and transparent VPN Device for use wherever you need privacy.
+      and transparent VPN Device for use wherever you need privacy. We believe
+      that security should be easy to use and we have done everything we could
+      to make this device as simple and secure as possible.
     </p>
-    <h2>Status</h2>
-    <openvpn-status></openvpn-status>
-    <h2>Configuration</h2>
+    <div class="container">
+      <div class="column column-one">
+        <h2>LAN</h2>
+      </div>
+      <div class="column column-two">
+        <h2>OpenVPN</h2>
+        <openvpn-status></openvpn-status>
+      </div>
+      <div class="column column-three">
+        <h2>Internet</h2>
+      </div>
+    </div>
   </body>
 </html>
